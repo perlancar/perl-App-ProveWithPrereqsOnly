@@ -1,0 +1,49 @@
+#!perl
+
+use strict;
+use warnings;
+require App::Prove;
+
+my $app = App::Prove->new;
+$app->process_args(@ARGV);
+$ENV{PERL5OPT} = ($ENV{PERL5OPT} ? " " : "").
+    "-Mlib::prereqs::only=RuntimeRecommends,1,TestRecommends,1,RuntimeSuggests,1,TestSuggests,1,debug,".($ENV{DEBUG} ? 1:0);
+exit( $app->run ? 0 : 1 );
+
+# ABSTRACT: prove + lib::prereqs::only (requires + recommends + suggests)
+# PODNAME:
+
+=head1 SYNOPSIS
+
+Use like you would use L<prove>:
+
+ % prove-with-prereqs-rs-only ...
+
+
+=head1 DESCRIPTION
+
+This is a shortcut for:
+
+ % PERL5OPT=-Mlib::prereqs::only=RuntimeRecommends,1,TestRecommends,1,RuntimeSuggests,1,TestSuggests,1 prove ...
+
+It runs your test suite but will only allow loading of core modules, modules
+under L<lib/>, and modules specified as prereqs (runtime & test requires +
+recommends + suggests) in F<dist.ini>. This is a cheap way to simulate a
+"vanilla" perl installation without having to prepare e.g. a new perlbrew
+instance.
+
+
+=head1 ENVIRONMENT
+
+=head2 DEBUG => bool
+
+Will be passed as C<debug> option to lib::prereqs::only.
+
+
+=head1 SEE ALSO
+
+L<prove>
+
+L<lib::prereqs::only>
+
+L<Dist::Zilla>

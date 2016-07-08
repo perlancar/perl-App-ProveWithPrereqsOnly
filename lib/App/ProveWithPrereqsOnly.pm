@@ -4,7 +4,7 @@ package App::ProveWithPrereqsOnly;
 # VERSION
 
 1;
-#ABSTRACT:
+#ABSTRACT: prove + lib::prereqs::only
 
 =head1 SYNOPSIS
 
@@ -16,3 +16,5 @@ This distribution includes the following CLI utilities:
 =head1 SEE ALSO
 
 L<prove>, L<App::prove>, L<lib::prereqs::only>
+
+L<Dist::Zilla>

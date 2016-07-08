@@ -7,29 +7,29 @@ require App::Prove;
 my $app = App::Prove->new;
 $app->process_args(@ARGV);
 $ENV{PERL5OPT} = ($ENV{PERL5OPT} ? " " : "").
-    "-Mlib::prereqs::only=debug,".($ENV{DEBUG} ? 1:0);
+    "-Mlib::prereqs::only=RuntimeRecommends,1,TestRecommends,1,debug,".($ENV{DEBUG} ? 1:0);
 exit( $app->run ? 0 : 1 );
 
-# ABSTRACT: prove + lib::prereqs::only (requires only)
+# ABSTRACT: prove + lib::prereqs::only (requires + recommends)
 # PODNAME:
 
 =head1 SYNOPSIS
 
 Use like you would use L<prove>:
 
- % prove-with-prereqs-only ...
+ % prove-with-prereqs-r-only ...
 
 
 =head1 DESCRIPTION
 
 This is a shortcut for:
 
- % PERL5OPT=-Mlib::prereqs::only prove ...
+ % PERL5OPT=-Mlib::prereqs::only=RuntimeRecommends,1,TestRecommends,1 prove ...
 
 It runs your test suite but will only allow loading of core modules, modules
-under L<lib/>, and modules specified as prereqs (runtime & test requires) in
-F<dist.ini>. This is a cheap way to simulate a "vanilla" perl installation
-without having to prepare e.g. a new perlbrew instance.
+under L<lib/>, and modules specified as prereqs (runtime & test requires +
+recommends) in F<dist.ini>. This is a cheap way to simulate a "vanilla" perl
+installation without having to prepare e.g. a new perlbrew instance.
 
 
 =head1 ENVIRONMENT
